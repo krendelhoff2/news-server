@@ -1,0 +1,17 @@
+# Port to run server
+port: 7980
+
+doLogging: true
+logLevel: "INFO"
+
+dbConfig:
+  hostName: "localhost"
+  port: 5432
+  user: "savely"
+  dbName: "db"
+  dbPassword: ""
+
+dbPoolSettings:
+  size: 10
+  # An amount of time for which an unused resource is kept open. The smallest acceptable value is 0.5 seconds.
+  timeout: 5

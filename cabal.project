@@ -1,0 +1,7 @@
+with-compiler: ghc-8.10.7
+
+packages: server-lib/
+        , server/
+
+allow-older: *
+allow-newer: *

@@ -1,0 +1,50 @@
+name:                server-lib
+version:             0.1.0.0
+github:              "krendelhoff/server"
+license:             BSD3
+author:              "Savely Krendelhoff"
+maintainer:          "dklaptove@edu.hse.ru"
+copyright:           "2021 Savely Krendelhoff"
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+description:         Advanced server app library.
+
+dependencies:
+- base
+- universum
+- exceptions
+- mtl
+- text
+- text-show
+- bytestring
+- aeson
+- template-haskell
+- deriving-aeson
+- lens
+- filepath
+- time
+- warp
+- wai
+- hasql
+- hasql-pool
+- hasql-migration
+- hasql-transaction
+- hasql-th
+- yaml
+- validation
+- uuid
+- http-types
+- http-api-data
+- path-pieces
+- time
+
+default-extensions:
+- NoImplicitPrelude
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wunused-imports

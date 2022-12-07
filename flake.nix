@@ -20,17 +20,14 @@
         overlays = [
           haskell-nix.overlay
           (final: prev: {
-
             news-server = final.haskell-nix.hix.project {
-              src = pkgs.haskell-nix.haskellLib.cleanGit {
+              src = final.haskell-nix.haskellLib.cleanGit {
                 name = "news-server";
                 src = ./.;
               };
               projectFileName = "stack.yaml";
               evalSystem = "x86_64-linux";
             };
-
-            components = (final.news-server.flake {}).packages;
           })
         ];
       };
@@ -45,9 +42,24 @@
 
       devShells.default = flake.devShell;
 
-      nixosModules.news-server = import ./nix/modules/news-server.nix;
+    }) // (let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [(final: prev: self.packages.${system})];
+      };
+      in {
+        nixosModules.news-server = import ./nix/modules/news-server.nix;
 
-    });
+        nixosConfigurations.nixos-container = nixpkgs.lib.nixosSystem {
+          inherit system pkgs;
+          specialArgs = { inherit self; };
+          modules = [
+            self.nixosModules.news-server
+            ./nix/modules/nixos-container.nix
+          ];
+        };
+      });
 
   # --- Flake Local Nix Configuration ----------------------------
   nixConfig = {

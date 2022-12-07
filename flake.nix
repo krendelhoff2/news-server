@@ -44,6 +44,9 @@
       packages.default = flake.packages."server:exe:server";
 
       devShells.default = flake.devShell;
+
+      nixosModules.news-server = import ./nix/modules/news-server.nix;
+
     });
 
   # --- Flake Local Nix Configuration ----------------------------

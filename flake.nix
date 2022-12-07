@@ -5,9 +5,10 @@
     haskell-nix.url = "github:input-output-hk/haskell.nix";
     nixpkgs.follows = "haskell-nix/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    serokell-nix.url = "github:serokell/serokell.nix";
   };
 
-  outputs = { self, nixpkgs, flake-utils, haskell-nix, ... }:
+  outputs = { self, nixpkgs, flake-utils, haskell-nix, serokell-nix, ... }:
     flake-utils.lib.eachSystem [
       "x86_64-linux"
       "x86_64-darwin"
@@ -18,6 +19,7 @@
       pkgs = import nixpkgs {
         inherit system; inherit (haskell-nix) config;
         overlays = [
+          serokell-nix.overlay
           haskell-nix.overlay
           (final: prev: {
             news-server = final.haskell-nix.hix.project {
@@ -41,6 +43,8 @@
       packages.default = flake.packages."server:exe:server";
 
       devShells.default = flake.devShell;
+
+      checks.trailing-whitespace = pkgs.build.checkTrailingWhitespace ./.;
 
     }) // (let
       system = "x86_64-linux";
